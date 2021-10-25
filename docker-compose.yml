@@ -1,0 +1,8 @@
+version: '3'
+services:
+  admin:
+    build: ./
+    image: admin:v1
+    ports:
+      - 9001:80
+    container_name: admin

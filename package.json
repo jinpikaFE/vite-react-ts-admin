@@ -5,13 +5,15 @@
     "start": "vite",
     "start:mock": "vite --mode mock",
     "start:test": "vite --mode test",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "serve": "vite preview",
     "lint": "eslint src",
     "lint:create": "eslint --init",
     "test": "jest",
     "test:u": "jest -u",
-    "tsc": "tsc --noEmit"
+    "tsc": "tsc --noEmit",
+    "docker:build": "docker-compose up -d --build",
+    "docker:dev": "docker-compose up -d"
   },
   "dependencies": {
     "@ant-design/icons": "^4.6.4",
