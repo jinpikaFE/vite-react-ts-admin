@@ -8,7 +8,8 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
-                sh './jenkins/scripts/build.sh' 
+                sh 'npm i yarn -g'
+                sh 'yarn' 
             }
         }
     }
