@@ -8,7 +8,6 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
-                sh 'npm i yarn -g'
                 sh 'yarn' 
             }
         }
