@@ -9,15 +9,15 @@ pipeline {
         CI = 'true'
     }
     stages {
-        stage('Build') { 
+        stage('Yarn') { 
             steps {
                 sh 'yarn' 
             }
         }
-        stage('Test') {
+        stage('Build') {
             steps {
                 sh 'chmod 755 ./jenkins/scripts/*.sh'
-                sh './jenkins/scripts/test.sh'
+                sh './jenkins/scripts/build.sh'
             }
         }
     }
