@@ -1,17 +1,17 @@
 import { Tooltip, Dropdown, Menu } from 'antd';
 import type { Settings as ProSettings } from '@ant-design/pro-layout';
 import {
-  createFromIconfontCN,
   QuestionCircleOutlined,
 } from '@ant-design/icons';
 import React from 'react';
 import HeaderSearch from '../HeaderSearch';
 import styles from './index.module.less';
-import { ICON_URL, LANGUAGE_MENU } from '@/types/constants';
+import { IconFont, LANGUAGE_MENU } from '@/types/constants';
 import { Observer } from 'mobx-react';
 import { localeLanguage } from '@/stores/language';
 import { Link } from 'react-router-dom';
 import AvatarDropdown from './AvatarDropdown';
+import FullScreen from '../FullScreen.tsx';
 
 export type GlobalHeaderRightProps = {
   theme?: ProSettings['navTheme'] | 'realDark';
@@ -25,10 +25,6 @@ const GlobalHeaderRight: React.FC<GlobalHeaderRightProps> = (props) => {
   if (theme === 'dark' && layout === 'top') {
     className = `${styles.right}  ${styles.dark}`;
   }
-
-  const IconFont = createFromIconfontCN({
-    scriptUrl: ICON_URL,
-  });
 
   const onClickMenu = ({ key }: any) => {
     localeLanguage.setLocaleLang(key);
@@ -86,6 +82,7 @@ const GlobalHeaderRight: React.FC<GlobalHeaderRightProps> = (props) => {
           <QuestionCircleOutlined />
         </a>
       </Tooltip>
+      <FullScreen />
       <AvatarDropdown />
       <Dropdown
         overlay={menu}

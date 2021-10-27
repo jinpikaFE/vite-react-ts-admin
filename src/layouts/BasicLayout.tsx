@@ -18,7 +18,7 @@ import { useFormatMessage } from 'react-intl-hooks';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import proSettings from '@config/defaultSettings';
 import Authorized from '@/utils/Authorized';
-import { getAuthorityFromRouter } from '@/utils/untils';
+import { getAuthorityFromRouter, toTree } from '@/utils/untils';
 import NotFound from '@/components/NotFound';
 import loaclRoutes from '@config/routes'
 
@@ -53,7 +53,7 @@ const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] =>
   menuList.map((item) => {
     const localItem = {
       ...item,
-      routes: item.routes ? menuDataRender(item.routes) : undefined,
+      children: item.children ? menuDataRender(item.children) : undefined,
     };
     return Authorized.check(item.authority, localItem, null) as MenuDataItem;
   });
@@ -119,7 +119,8 @@ const BasicLayout: React.FC<{ routes: RouteType[] }> = (props) => {
     const getMenu = async () => {
       const res = await queryMenu();
       if (res) {
-        setMenuData(res.data?.menuData); // res.data?.menuData
+        const dataTemp = toTree(res.data, '_id', 'lastMenu', (item) => item)
+        setMenuData(dataTemp); // res.data?.menuData
       }
     };
     getMenu();
@@ -141,6 +142,10 @@ const BasicLayout: React.FC<{ routes: RouteType[] }> = (props) => {
     <div id="pro-layout">
       <ProLayout
         style={{ height: '100vh' }}
+        waterMarkProps={{
+          content: '金皮卡',
+          fontColor: 'rgba(24,144,255,0.15)',
+        }}
         formatMessage={(msg) => formatMessage(msg) as string}
         footerRender={() => defaultFooterDom}
         onMenuHeaderClick={() => history.push('/home')}

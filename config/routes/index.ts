@@ -18,17 +18,21 @@ const routes: RouteType[] = [
         component: lazy(() => import('@/pages/Home')),
       },
       {
-        path: '/admin',
+        path: '/manager',
         component: lazy(() => import('@/layouts/BlankLayout')),
         routes: [
           {
-            path: '/admin',
-            redirect: '/admin/test',
+            path: '/manager/menu',
+            component: lazy(() => import('@/pages/SideMenu')),
           },
           {
-            path: '/admin/test',
-            component: lazy(() => import('@/pages/Admin/test')),
+            path: '/manager/userManager',
+            component: lazy(()=>import('@/pages/Admin/userManager'))
           },
+          {
+            path: '/manager/roleManager',
+            component: lazy(()=>import('@/pages/Admin/roleManager'))
+          }
         ],
       },
     ],

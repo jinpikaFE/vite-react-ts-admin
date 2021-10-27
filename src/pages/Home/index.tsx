@@ -1,11 +1,22 @@
 import ProCard from '@ant-design/pro-card';
-import { PageContainer } from '@ant-design/pro-layout';
+import { Button } from 'antd';
 import React from 'react';
+import { useHistory } from 'react-router';
 
 const Home: React.FC = () => {
+  const history = useHistory();
   return (
     <>
-      <ProCard>Home</ProCard>
+      <ProCard>
+        Home{' '}
+        <Button
+          onClick={() => {
+            history.push('/manager/menu');
+          }}
+        >
+          菜单管理
+        </Button>
+      </ProCard>
     </>
   );
 };

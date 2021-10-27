@@ -5,7 +5,7 @@ export default [
     url: '/api/menu',
     method: 'get',
     response: ({ body }: any) => {
-      const resObj: ResultType = {
+      const resObj: ResultType<any> = {
         code: 0,
         message: '菜单获取成功',
         data: {
@@ -16,7 +16,6 @@ export default [
               component: './Welcome',
               icon: 'icon-home',
               breadcrumbName: 'admin',
-              authority: 'admin',
             },
             {
               path: '/admin',
@@ -25,7 +24,7 @@ export default [
               component: './Admin',
               icon: 'icon-manage',
               authority: 'admin',
-              routes: [
+              children: [
                 {
                   path: '/admin/test',
                   name: 'sub-page',
@@ -52,11 +51,11 @@ export default [
               path: '/list',
               component: './ListTableList',
               icon: 'icon-list',
-              routes: [
+              children: [
                 {
                   path: '/list/sub-page',
                   name: '一级列表页面',
-                  routes: [
+                  children: [
                     {
                       path: 'sub-sub-page1',
                       name: '一一级列表页面',

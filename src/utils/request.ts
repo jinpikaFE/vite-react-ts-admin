@@ -1,12 +1,7 @@
 /** Request 网络请求工具 更详细的 api 文档: https://github.com/umijs/umi-request */
 import { extend } from 'umi-request';
 import { notification } from 'antd';
-
-type responseType = {
-  message?: string;
-  code: number;
-  data?: any;
-};
+import { ResultType } from '@/types/global';
 
 const codeMessage: Record<number, string> = {
   200: '服务器成功返回请求的数据。',
@@ -68,11 +63,16 @@ const request = extend({
 // 请求拦截
 request.interceptors.request.use((url, options) => {
   const token = window.localStorage.getItem('token');
+  const role = JSON.parse(window.localStorage.getItem('currentUser') || '{}')?.role
   return {
     url,
     options: {
       ...options,
-      headers: { ...options.headers, token: token || (null as unknown as string) },
+      headers: {
+        ...options.headers,
+        Authorization: `Bearer ${token}`,
+        role
+      },
     },
   };
 });
@@ -83,17 +83,26 @@ request.interceptors.response.use((response) => {
 });
 
 // 针对个人接口处理请求
-const handleRequest = async (url: string, options?: Record<string, any>): Promise<any> => {
-  const res: responseType = await request(url, options);
+const handleRequest = async (
+  url: string,
+  options?: Record<string, any>,
+): Promise<any> => {
+  const res: ResultType<any> = await request(url, options);
   if (res?.code === 0) {
     return res;
   }
-  notification.error({
-    message: `Request error ${res?.code}: ${url}`,
-    description: res?.message || '系统错误',
-  });
-  if (res?.code === 403 && res?.message === '登录已过期,请重新登录') {
-    window.location.href = '/user/login';
+
+  if (res?.status === 401 && res?.statusText === 'Unauthorized') {
+    notification.error({
+      message: `Request error ${res?.status}: ${url}`,
+      description: 'token过期重新登录',
+    });
+    window.location.href = '/login';
+  } else {
+    notification.error({
+      message: `Request error ${res?.code || res?.status}: ${url}`,
+      description: res?.message || res?.statusText || '系统错误',
+    });
   }
   return null;
 };

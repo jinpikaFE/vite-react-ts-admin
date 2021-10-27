@@ -6,6 +6,8 @@
 
 基于 vite-mobx-TypeScript-react 开发的后台管理系统
 
+[示例链接](http://nestadmin_dt.jinxinapp.cn/login)
+
 ## 安装依赖
 
 - node v12.14.0

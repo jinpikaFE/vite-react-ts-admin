@@ -6,7 +6,7 @@ export default [
     url: '/api/login',
     method: 'post',
     response: ({ body }: any) => {
-      const resObj: ResultType = {
+      const resObj: ResultType<any> = {
         code: -1,
         message: '登陆失败',
         data: {
@@ -18,8 +18,8 @@ export default [
       resObj.data.loginType = body.loginType;
 
       if ( body.loginType === 'account') {
-        resObj.data.username = body.username
-        if (body.username === 'admin' && body.password === 'admin') {
+        resObj.data.userName = body.userName
+        if (body.userName === 'admin' && body.password === 'admin') {
           resObj.code = 0
           resObj.message = '登录成功'
         } else {
