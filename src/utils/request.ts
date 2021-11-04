@@ -31,10 +31,17 @@ const errorHandler = (error: { response: Response }): Response => {
     const errorText = codeMessage[response.status] || response.statusText;
     const { status, url } = response;
 
-    notification.error({
-      message: `Request error ${status}: ${url}`,
-      description: errorText,
-    });
+    if (status === 403) {
+      notification.error({
+        message: `抱歉您无权限操作`,
+        description: '非管理员禁止编辑和删除操作，可以尝试创建功能',
+      });
+    } else {
+      notification.error({
+        message: `Request error ${status}: ${url}`,
+        description: errorText,
+      });
+    }
   } else if (!response) {
     notification.error({
       description: 'Your network is abnormal and cannot connect to the server',
@@ -63,7 +70,9 @@ const request = extend({
 // 请求拦截
 request.interceptors.request.use((url, options) => {
   const token = window.localStorage.getItem('token');
-  const role = JSON.parse(window.localStorage.getItem('currentUser') || '{}')?.role
+  const role = JSON.parse(
+    window.localStorage.getItem('currentUser') || '{}',
+  )?.role;
   return {
     url,
     options: {
@@ -71,7 +80,7 @@ request.interceptors.request.use((url, options) => {
       headers: {
         ...options.headers,
         Authorization: `Bearer ${token}`,
-        role
+        role,
       },
     },
   };

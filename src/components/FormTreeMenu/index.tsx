@@ -31,6 +31,7 @@ const FormTreeMenu: React.FC = () => {
     const res = await delMenu(id);
     if (res) {
       refTable?.current?.reload();
+      window.location.reload()
       message.success(res.message || '删除成功');
     }
   };
@@ -40,7 +41,6 @@ const FormTreeMenu: React.FC = () => {
       title: '菜单名称',
       dataIndex: 'name',
       copyable: true,
-      // ellipsis: true,
     },
     {
       title: '图标',
@@ -84,7 +84,7 @@ const FormTreeMenu: React.FC = () => {
         >
           编辑
         </Button>,
-        <span key='del'>
+        <span key="del">
           {!record?.children && (
             <Popconfirm
               placement="topRight"
@@ -107,6 +107,7 @@ const FormTreeMenu: React.FC = () => {
   return (
     <>
       <ProTable
+        scroll={{ x: 700 }}
         bordered
         actionRef={refTable}
         // params={params}

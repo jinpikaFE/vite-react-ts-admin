@@ -86,7 +86,7 @@ const UserForm: React.FC<{
         <Input
           allowClear
           maxLength={11}
-          style={{ width: '328px' }}
+          className='input-fix-md'
           value={value || cItem?.phone || ''}
           onChange={onChange}
         />
@@ -137,7 +137,7 @@ const UserForm: React.FC<{
         name="role"
         rules={[{ required: true, message: '请选择角色!' }]}
       >
-        <Select placeholder="请选择角色" style={{ width: 328 }} allowClear>
+        <Select placeholder="请选择角色" className='input-fix-md' allowClear>
           {roleList?.map((item) => (
             <Option value={item?.name} key={item?._id}>
               {item?.name}

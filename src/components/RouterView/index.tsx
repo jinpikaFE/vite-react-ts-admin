@@ -1,16 +1,21 @@
 import React, { Suspense } from 'react';
-import { Route, Switch, BrowserRouter } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import routes from '@config/routes';
-import Loading from '@/components/Loading'
+import Loading from '@/components/Loading';
+import GuardRouter from './GuardRouter';
 
 const RouterView = () => {
+
   return (
     // 建议使用 HashRouter
     <Suspense fallback={<Loading />}>
-      <BrowserRouter>
+      <GuardRouter>
         <Switch>
           {routes.map(
-            ({ path, component: ComponentName, exact = true, routes = [] }, key) => {
+            (
+              { path, component: ComponentName, exact = true, routes = [] },
+              key,
+            ) => {
               return (
                 <Route
                   exact={routes.length === 0 && exact}
@@ -31,7 +36,7 @@ const RouterView = () => {
             },
           )}
         </Switch>
-      </BrowserRouter>
+      </GuardRouter>
     </Suspense>
   );
 };

@@ -203,6 +203,7 @@ const UserManager: React.FC = () => {
   return (
     <>
       <ProTable<FormUserType>
+        scroll={{ x: true }}
         bordered
         request={async (params, sorter, filter) => {
           // 这里需要返回一个 Promise,在返回之前你可以进行数据转化

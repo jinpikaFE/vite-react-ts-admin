@@ -20,7 +20,8 @@ import proSettings from '@config/defaultSettings';
 import Authorized from '@/utils/Authorized';
 import { getAuthorityFromRouter, toTree } from '@/utils/untils';
 import NotFound from '@/components/NotFound';
-import loaclRoutes from '@config/routes'
+import loaclRoutes from '@config/routes';
+import { staticMenu } from './staticMenu';
 
 const defaultFooterDom = (
   <DefaultFooter
@@ -119,7 +120,7 @@ const BasicLayout: React.FC<{ routes: RouteType[] }> = (props) => {
     const getMenu = async () => {
       const res = await queryMenu();
       if (res) {
-        const dataTemp = toTree(res.data, '_id', 'lastMenu', (item) => item)
+        const dataTemp = toTree(res.data, '_id', 'lastMenu', (item) => item);
         setMenuData(dataTemp); // res.data?.menuData
       }
     };
@@ -141,7 +142,7 @@ const BasicLayout: React.FC<{ routes: RouteType[] }> = (props) => {
   return (
     <div id="pro-layout">
       <ProLayout
-        style={{ height: '100vh' }}
+        style={{ height: '100%', minHeight: '100vh' }}
         waterMarkProps={{
           content: '金皮卡',
           fontColor: 'rgba(24,144,255,0.15)',
@@ -179,7 +180,9 @@ const BasicLayout: React.FC<{ routes: RouteType[] }> = (props) => {
           return <Link to={menuItemProps.path}>{defaultDom}</Link>;
         }}
         menuDataRender={
-          menuData?.length > 0 ? () => menuDataRender(menuData) : menuDataRender
+          menuData?.length > 0
+            ? () => menuDataRender([...staticMenu, ...menuData])
+            : menuDataRender
         }
         menuExtraRender={({ collapsed }) =>
           !collapsed && (

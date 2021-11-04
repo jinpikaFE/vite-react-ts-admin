@@ -109,3 +109,64 @@ export const reduceProvArr = (dataKey: any[], tempArr: ProvinceType[]) => {
     tempArr.push(itemObj);
   }
 };
+
+//自定义cookie对象
+export const cookie = {
+  /**
+   *
+   * @param name cookie键
+   * @param value cookie值
+   */
+  setCookie: function (name: string, value: string) {
+    const curDate = new Date();
+    //当前时间戳
+    const curTamp = curDate.getTime();
+    //当前日期
+    const curDay = curDate.toLocaleDateString();
+    let curWeeHours = 0;
+    if (
+      /Safari/.test(navigator.userAgent) &&
+      !/Chrome/.test(navigator.userAgent)
+    ) {
+      //当日凌晨的时间戳,减去一毫秒是为了防止后续得到的时间不会达到00:00:00的状态
+      curWeeHours = new Date(curDay).getTime() + 8 * 60 * 60 * 1000 - 1;
+    } else {
+      curWeeHours = new Date(curDay).getTime() - 1;
+    }
+    //当日已经过去的时间（毫秒）
+    const passedTamp = curTamp - curWeeHours;
+    //当日剩余时间
+    let leftTamp = 24 * 60 * 60 * 1000 - passedTamp;
+    if (
+      !(
+        /Safari/.test(navigator.userAgent) &&
+        !/Chrome/.test(navigator.userAgent)
+      )
+    ) {
+      leftTamp = leftTamp + 8 * 60 * 60 * 1000;
+    }
+    const leftTime = new Date();
+    leftTime.setTime(leftTamp + curTamp);
+    //创建cookie
+    document.cookie =
+      name + '=' + value + ';expires=' + leftTime.toUTCString() + ';path=/';
+  },
+  getCookie: function (name: string) {
+    //name 为想要取到的键值的键名
+    const reg = /\s/g;
+    const result = document.cookie.replace(reg, '');
+    const resultArr = result.split(';');
+    for (let i = 0; i < resultArr.length; i++) {
+      const nameArr = resultArr[i].split('=');
+      if (nameArr[0] == name) {
+        return nameArr[1];
+      }
+    }
+  },
+  removeCookie: function (name: string) {
+    //name为想要删除的Cookie的键名
+    const oDate = new Date(); //时间对象
+    oDate.setDate(new Date().getDate() - 1);
+    document.cookie = name + '=123;expires=' + oDate + ';path=/';
+  },
+};

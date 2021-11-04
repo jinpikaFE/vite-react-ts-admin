@@ -164,7 +164,7 @@ const Login: React.FC = () => {
                         size: 'large',
                         prefix: <UserOutlined className={'prefixIcon'} />,
                       }}
-                      placeholder={'用户名: admin'}
+                      placeholder={'用户名: user'}
                       rules={[
                         {
                           required: true,
@@ -178,7 +178,7 @@ const Login: React.FC = () => {
                         size: 'large',
                         prefix: <LockOutlined className={'prefixIcon'} />,
                       }}
-                      placeholder={'密码: admin'}
+                      placeholder={'密码: q123456'}
                       rules={[
                         {
                           required: true,

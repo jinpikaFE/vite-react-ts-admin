@@ -10,6 +10,7 @@ import { createMenu, updateMenu } from '@/services/FromTreeMenu';
 import { queryMenu } from '@/services/global';
 import { toTree } from '@/utils/untils';
 import { SketchPicker } from 'react-color';
+import styles from './index.module.less'
 
 const MenuDrawer: React.FC<MenuDrawerProps> = (props) => {
   const { onCloseDrawer, visibleDrawer, refTable, cItem } = props;
@@ -62,6 +63,7 @@ const MenuDrawer: React.FC<MenuDrawerProps> = (props) => {
 
   return (
     <DrawerForm<MenuFormType>
+    className={styles.drawerForm}
       {...{
         labelCol: { span: 4 },
         wrapperCol: { span: 14 },
@@ -82,6 +84,7 @@ const MenuDrawer: React.FC<MenuDrawerProps> = (props) => {
           });
           if (res) {
             refTable?.reload();
+            window.location.reload()
             message.success(res.message || '更新成功');
             onCloseDrawer();
           }
@@ -92,6 +95,7 @@ const MenuDrawer: React.FC<MenuDrawerProps> = (props) => {
           });
           if (res) {
             refTable?.reload();
+            window.location.reload()
             message.success(res.message || '创建成功');
             onCloseDrawer();
           }
@@ -148,7 +152,7 @@ const MenuDrawer: React.FC<MenuDrawerProps> = (props) => {
       <ProForm.Item label="上级菜单" name="lastMenu">
         <TreeSelect
           allowClear
-          style={{ width: '328px' }}
+          className='input-fix-md'
           dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
           treeData={treeData}
           placeholder="请选择"
