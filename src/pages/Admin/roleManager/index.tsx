@@ -145,7 +145,7 @@ const RoleManager: React.FC = () => {
     if (visibleDrawer) {
       const getData = async () => {
         if (menusData) {
-          let dataTemp = toTree(menusData, '_id', 'lastMenu', (item) => {
+          const dataTemp = toTree(menusData, '_id', 'lastMenu', (item) => {
             item.title = formatMessage({ id: `menu.${item.name}` }) as string;
             item.value = item._id;
             if (item?.isLink) {
@@ -194,7 +194,7 @@ const RoleManager: React.FC = () => {
     showCheckedStrategy: TreeSelect.SHOW_ALL,
     placeholder: '请选择',
     allowClear: true,
-    className:'input-fix-md',
+    className: 'input-fix-md',
     dropdownStyle: { maxHeight: 400, overflow: 'auto' },
   };
 

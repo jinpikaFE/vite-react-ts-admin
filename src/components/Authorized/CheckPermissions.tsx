@@ -1,6 +1,5 @@
 import React from 'react';
 import { CURRENT } from './renderAuthorize';
-// eslint-disable-next-line import/no-cycle
 import PromiseRender from './PromiseRender';
 
 export type IAuthorityType =
@@ -62,14 +61,18 @@ const checkPermissions = <T, K>(
   }
   // Deal with promise
   if (authority instanceof Promise) {
-    return <PromiseRender<T, K> ok={target} error={Exception} promise={authority} />;
+    return (
+      <PromiseRender<T, K> ok={target} error={Exception} promise={authority} />
+    );
   }
   // Deal with function
   if (typeof authority === 'function') {
     const bool = authority(currentAuthority);
     // The return value after the function is executed is Promise
     if (bool instanceof Promise) {
-      return <PromiseRender<T, K> ok={target} error={Exception} promise={bool} />;
+      return (
+        <PromiseRender<T, K> ok={target} error={Exception} promise={bool} />
+      );
     }
     if (bool) {
       return target;
@@ -81,7 +84,11 @@ const checkPermissions = <T, K>(
 
 export { checkPermissions };
 
-function check<T, K>(authority: IAuthorityType, target: T, Exception: K): T | K | React.ReactNode {
+function check<T, K>(
+  authority: IAuthorityType,
+  target: T,
+  Exception: K,
+): T | K | React.ReactNode {
   return checkPermissions<T, K>(authority, CURRENT, target, Exception);
 }
 

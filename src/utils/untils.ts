@@ -34,7 +34,7 @@ export const toTree = (
   key: string,
   parentKey: string,
   cb: (param: any) => any,
-  children: string = 'children',
+  children = 'children',
 ) => {
   // 删除 所有 children,以防止多次调用
   data.forEach(function (item) {
@@ -50,7 +50,7 @@ export const toTree = (
   const val: any[] = [];
   data.forEach(function (item) {
     // 以当前遍历项，的pid,去map对象中找到索引的id
-    var parent = map?.[item?.[parentKey]];
+    const parent = map?.[item?.[parentKey]];
     const newItem = cb(item);
     // 好绕啊，如果找到索引，那么说明此项不在顶级当中,那么需要把此项添加到，他对应的父级中
     if (parent) {

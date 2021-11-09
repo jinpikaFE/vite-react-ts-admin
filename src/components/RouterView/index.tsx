@@ -5,7 +5,6 @@ import Loading from '@/components/Loading';
 import GuardRouter from './GuardRouter';
 
 const RouterView = () => {
-
   return (
     // 建议使用 HashRouter
     <Suspense fallback={<Loading />}>
@@ -23,13 +22,11 @@ const RouterView = () => {
                   path={path}
                   render={(props: any) => {
                     //登录情况下
-                    if (true) {
-                      return (
-                        ComponentName && (
-                          <ComponentName {...props} routes={routes} />
-                        )
-                      );
-                    }
+                    return (
+                      ComponentName && (
+                        <ComponentName {...props} routes={routes} />
+                      )
+                    );
                   }}
                 />
               );

@@ -4,7 +4,7 @@
 }
 
 .text-center {
-  text-align: center
+  text-align: center;
 }
 
 .text-right {
@@ -12,12 +12,12 @@
 }
 
 .text-justify {
-  text-align: justify
+  text-align: justify;
 }
 
 /* 全局自定义类名-文字排版及颜色 */
 .text-nowrap {
-  white-space: nowrap
+  white-space: nowrap;
 }
 
 .word-break {
@@ -25,15 +25,15 @@
 }
 
 .text-lowercase {
-  text-transform: lowercase
+  text-transform: lowercase;
 }
 
 .text-uppercase {
-  text-transform: uppercase
+  text-transform: uppercase;
 }
 
 .text-capitalize {
-  text-transform: capitalize
+  text-transform: capitalize;
 }
 
 .text-primary {
@@ -82,11 +82,11 @@
 }
 
 /* 全局自定义类名-盒模型 */
-.clearfix:after {
-  content: "";
+.clearfix::after {
   display: block;
   height: 0;
   clear: both;
+  content: "";
 }
 
 .clearfix {
@@ -194,14 +194,15 @@
   box-sizing: border-box;
 }
 
-.row:after, .row:before {
-  content: "";
+.row::after,
+.row::before {
   display: block;
   height: 0;
   clear: both;
+  content: "";
 }
 
-[class*=row-col-] {
+[class*="row-col-"] {
   float: left;
   box-sizing: border-box;
 }
@@ -220,16 +221,16 @@
 
 /* 底部提示信息样式（加载中、没有更多了、请求失败，请重新加载） start */
 .promptText {
+  padding: 26px;
   font-size: @font-size-primary;
+  line-height: @line-height-large;
   color: @theme-color-secondary;
   text-align: center;
-  line-height: @line-height-large;
-  padding: 26px;
 
   .iconSplin {
+    margin-right: @margin-small;
     font-size: @font-size-primary;
     color: @theme-color-title;
-    margin-right: @margin-small;
   }
 }
 

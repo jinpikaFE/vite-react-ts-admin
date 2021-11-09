@@ -10,6 +10,10 @@
 
 [示例链接](http://nestadmin_dt.jinxinapp.cn/login)
 
+[项目中涉及的接口项目地址](https://github.com/jinxin1517/nest-admin)
+
+[项目接口文档](http://nestadmin_dt.jinxinapp.cn/docs/)
+
 [个人博客中,Problem记录了该项目开发中遇到的相关问题](http://blog.jinxinapp.cn/)
 
 ## 主要功能
@@ -21,6 +25,7 @@
 - 全屏显示
 - i18n国际化
   - 使用react-intl-hooks进行国际化处理
+- 单元测试
 - 菜单管理
   - 表结构，级联操作
 - 用户管理

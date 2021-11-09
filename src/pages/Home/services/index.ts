@@ -8,13 +8,15 @@ export const findAllUser = async (): Promise<ResultType<any>> => {
   });
 };
 
-export const findUvMaps = async (type: GlobalType): Promise<ResultType<any>> => {
+export const findUvMaps = async (
+  type: GlobalType,
+): Promise<ResultType<any>> => {
   return request(`/api/uv/maps/${type}`, {
     method: 'GET',
   });
 };
 
-export const findUvAll = async (params: {
+export const findUvStatistics = async (params: {
   type: GlobalType;
 }): Promise<ResultType<any>> => {
   return request('/api/uv/statistics', {
@@ -23,10 +25,28 @@ export const findUvAll = async (params: {
   });
 };
 
-export const findPvAll = async (params: {
+export const findPvStatistics = async (params: {
   type: GlobalType;
 }): Promise<ResultType<any>> => {
   return request('/api/pv/statistics', {
+    method: 'GET',
+    params,
+  });
+};
+
+export const findUvAll = async <T = any>(
+  params: T,
+): Promise<ResultType<any>> => {
+  return request('/api/uv/all', {
+    method: 'GET',
+    params,
+  });
+};
+
+export const findPvAll = async <T = any>(
+  params: T,
+): Promise<ResultType<any>> => {
+  return request('/api/pv/all', {
     method: 'GET',
     params,
   });

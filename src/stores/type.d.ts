@@ -4,6 +4,6 @@ export type MonitorUvType = {
   address?: string;
   startTime?: Date;
   endTime?: Date;
-  durationVisit?: Number;
+  durationVisit?: number;
   type: 'blog' | 'admin';
-}
+};

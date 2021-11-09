@@ -1,15 +1,29 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  overflow-x: hidden;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Roboto",
+    "Oxygen",
+    "Ubuntu",
+    "Cantarell",
+    "Fira Sans",
+    "Droid Sans",
+    "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family:
+    source-code-pro,
+    Menlo,
+    Monaco,
+    Consolas,
+    "Courier New",
     monospace;
 }
 
@@ -19,19 +33,21 @@ code {
   }
 }
 
-/*在992 和1199 像素之间的屏幕里，中等屏幕，分辨率低的PC*/
+/* 在992 和1199 像素之间的屏幕里，中等屏幕，分辨率低的PC */
 @media (min-width: 992px) and (max-width: 1199px) {
   &.input-fix-md {
     width: 322px !important;
   }
 }
-/*在768 和991 像素之间的屏幕里，小屏幕，主要是PAD*/
+
+/* 在768 和991 像素之间的屏幕里，小屏幕，主要是PAD */
 @media (min-width: 768px) and (max-width: 991px) {
   &.input-fix-md {
     width: 263.66px !important;
   }
 }
-/*在480 和767 像素之间的屏幕里，超小屏幕，主要是手机*/
+
+/* 在480 和767 像素之间的屏幕里，超小屏幕，主要是手机 */
 @media (min-width: 480px) and (max-width: 767px) {
   &.input-fix-md {
     width: 205.33px !important;
@@ -42,7 +58,8 @@ code {
     width: 328px !important;
   }
 }
-/*在小于480 像素的屏幕，微小屏幕，更低分辨率的手机*/
+
+/* 在小于480 像素的屏幕，微小屏幕，更低分辨率的手机 */
 @media (max-width: 479px) {
   &.input-fix-md {
     width: 252px !important;

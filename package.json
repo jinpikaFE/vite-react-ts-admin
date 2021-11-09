@@ -7,11 +7,28 @@
     "start:test": "vite --mode test",
     "build": "vite build",
     "serve": "vite preview",
-    "lint": "eslint src",
+    "lint": "eslint src --fix",
     "lint:create": "eslint --init",
+    "lint:css": "stylelint src/**/*.less --fix  --custom-syntax postcss-less",
     "test": "jest",
     "test:u": "jest -u",
-    "tsc": "tsc --noEmit"
+    "tsc": "tsc --noEmit",
+    "lint-staged": "lint-staged"
+  },
+  "pre-commit": [
+    "lint-staged"
+  ],
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ],
+    "*.{json.md,xml,svg,html,js,jsx}": "prettier --write",
+    "*.less": [
+      "stylelint  --custom-syntax postcss-less",
+      "git add"
+    ]
   },
   "dependencies": {
     "@ant-design/icons": "^4.6.4",
@@ -36,6 +53,7 @@
     "nanoid": "^3.1.30",
     "particles-bg": "^2.5.5",
     "path-to-regexp": "^6.2.0",
+    "pre-commit": "^1.2.2",
     "qrcode.react": "^1.0.1",
     "rc-queue-anim": "^2.0.0",
     "react": "^17.0.2",
@@ -43,6 +61,7 @@
     "react-dom": "^17.0.0",
     "react-intl-hooks": "^1.0.11",
     "react-router-dom": "^5.3.0",
+    "stylelint-config-standard": "^23.0.0",
     "ts-node": "^10.2.1",
     "umi-request": "^1.4.0"
   },
@@ -63,7 +82,14 @@
     "babel-jest": "^27.2.0",
     "eslint": "^7.32.0",
     "eslint-plugin-react": "^7.25.1",
+    "husky": "^7.0.4",
     "jest": "^27.2.0",
+    "lint-staged": "^11.2.6",
+    "postcss-less": "^5.0.0",
+    "prettier": "^2.4.1",
+    "stylelint": "^14.0.1",
+    "stylelint-config-css-modules": "^2.3.0",
+    "stylelint-order": "^5.0.0",
     "typescript": "^4.3.2",
     "vite": "^2.5.4",
     "vite-plugin-mock": "^2.9.6"

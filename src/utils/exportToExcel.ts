@@ -1,21 +1,21 @@
 import ExcelJs from 'exceljs';
 
-const exportToExcel = (data: any[], fileName: string, ) => {
-  let sheetName = `${fileName}.xlsx`;
-  let headerName = 'RequestsList';
+const exportToExcel = (data: any[], fileName: string) => {
+  const sheetName = `${fileName}.xlsx`;
+  const headerName = 'RequestsList';
 
   // 获取sheet对象，设置当前sheet的样式
   // showGridLines: false 表示不显示表格边框
-  let workbook = new ExcelJs.Workbook();
-  let sheet = workbook.addWorksheet(sheetName, {
+  const workbook = new ExcelJs.Workbook();
+  const sheet = workbook.addWorksheet(sheetName, {
     views: [{ showGridLines: true }],
   });
   // let sheet2 = workbook.addWorksheet("Second sheet", { views: [{ showGridLines: false }] });
 
   // 获取每一列的header
-  let columnArr = [];
-  for (let i in data[0]) {
-    let tempObj = { name: '' };
+  const columnArr = [];
+  for (const i in data[0]) {
+    const tempObj = { name: '' };
     tempObj.name = i;
     columnArr.push(tempObj);
   }
@@ -47,12 +47,12 @@ const exportToExcel = (data: any[], fileName: string, ) => {
     },
     columns: columnArr ? columnArr : [{ name: '' }],
     rows: data.map((e) => {
-      let arr = [];
-      for (let i in e) {
+      const arr = [];
+      for (const i in e) {
         arr.push(e[i]);
       }
       return arr;
-    })
+    }),
   });
 
   sheet.getCell('A1').font = { size: 20, bold: true }; // 设置单元格的文字样式
@@ -80,7 +80,7 @@ const exportToExcel = (data: any[], fileName: string, ) => {
 
     // 获取表格数据部分，定义其样式
     for (let j = 0; j < table.table.rows.length; j++) {
-      let rowCell = sheet.getCell(`${String.fromCharCode(65 + i)}${j + 6}`);
+      const rowCell = sheet.getCell(`${String.fromCharCode(65 + i)}${j + 6}`);
       rowCell.alignment = { wrapText: true };
       rowCell.border = {
         bottom: {

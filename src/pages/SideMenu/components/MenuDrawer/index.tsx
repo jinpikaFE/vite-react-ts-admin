@@ -20,7 +20,6 @@ const MenuDrawer: React.FC<MenuDrawerProps> = (props) => {
           wrapperCol: { span: 14 },
         }}
         layout="horizontal"
-        onFinish={async (values) => {}}
       >
         <ProFormText
           width="md"
