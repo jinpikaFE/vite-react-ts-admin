@@ -2,6 +2,7 @@
 import { extend } from 'umi-request';
 import { notification } from 'antd';
 import { ResultType } from '@/types/global';
+import * as Sentry from '@sentry/react';
 
 const codeMessage: Record<number, string> = {
   200: '服务器成功返回请求的数据。',
@@ -42,6 +43,11 @@ const errorHandler = (error: { response: Response }): Response => {
         description: errorText,
       });
     }
+    Sentry.withScope(function (scope) {
+      // group errors together based on their request and response
+      scope.setFingerprint(['Request', url, String(status)]);
+      Sentry.captureException(errorText);
+    });
   } else if (!response) {
     notification.error({
       description: 'Your network is abnormal and cannot connect to the server',

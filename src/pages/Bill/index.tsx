@@ -1,36 +1,25 @@
 import RightDrawer from '@/components/RightDrawer';
 import exportToExcel from '@/utils/exportToExcel';
 import { PlusOutlined } from '@ant-design/icons';
-import { ProFormInstance } from '@ant-design/pro-form';
 import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
-import { Avatar, Button, message, Popconfirm, Row, Select } from 'antd';
+import { Button, Card, message, Popconfirm } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
-import { queryRoleAlll } from '../roleManager/services';
-import { createUser, delUser, queryUser, updateUser } from './services';
-import { FormUserType } from './type';
-import UserForm from './UserForm';
+import { FormBillType } from './type';
+import BillForm from './components/BillForm';
+import { ProFormInstance } from '@ant-design/pro-form';
+import { createBill, delBill, queryBill, updateBill } from './services';
+import { CUSTOMOPTIONS } from './constants';
+import moment from 'moment';
+import BillChart from './components/BillChart';
 
-const UserManager: React.FC = () => {
+const Bill: React.FC = () => {
   const [visibleDrawer, setVisibleDrawer] = useState<boolean>(false);
-  const [cItem, setCItem] = useState<FormUserType>();
+  const [cItem, setCItem] = useState<FormBillType>();
   const refTable = useRef<ActionType>();
   const formRef = useRef<ProFormInstance | any>();
 
-  const [captcha, setCaptcha] = useState<string>('1111');
-
   const [datasSource, setDatasSource] = useState<any[]>([]);
-
-  const [roleList, setRoleList] = useState<any[]>([]);
-
-  useEffect(() => {
-    const getRoleList = async () => {
-      const res = await queryRoleAlll();
-      if (res) {
-        setRoleList(res.data);
-      }
-    };
-    getRoleList();
-  }, []);
+  const [chartData, setChartData] = useState<any[]>([]);
 
   const columns: ProColumns[] = [
     {
@@ -39,69 +28,27 @@ const UserManager: React.FC = () => {
       width: 48,
     },
     {
-      title: '用户名',
-      dataIndex: 'userName',
-      copyable: true,
-      ellipsis: true,
-      tip: '标题过长会自动收缩',
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: '此项为必填项',
-          },
-        ],
-      },
-      render: (userName, record) => {
-        return (
-          <Row justify="start" align="middle" style={{ flexFlow: 'nowrap' }}>
-            {record?.avatar && (
-              <Avatar
-                style={{ flex: '0 0 auto', marginRight: '5px' }}
-                src={record.avatar?.[0]?.url}
-              />
-            )}
-            {userName}
-          </Row>
-        );
-      },
+      title: '日期',
+      dataIndex: 'date',
+      valueType: 'date',
+      sorter: true,
+      hideInSearch: true,
     },
     {
-      title: '邮箱',
-      dataIndex: 'email',
-    },
-    {
-      title: '手机号',
-      dataIndex: 'phone',
-    },
-    {
-      title: '角色',
-      dataIndex: 'role',
-      renderFormItem: () => {
-        return (
-          <Select allowClear>
-            {roleList?.map((item) => {
-              return (
-                <Select.Option value={item.name} key={item._id}>
-                  {item?.name}
-                </Select.Option>
-              );
-            })}
-          </Select>
-        );
-      },
+      title: '消费总额',
+      dataIndex: 'totalConsume',
+      hideInSearch: true,
     },
     {
       title: '创建时间',
       dataIndex: 'registerTime',
       valueType: 'dateTime',
-      sorter: true,
       hideInSearch: true,
     },
     {
-      title: '创建时间',
+      title: '日期',
       dataIndex: 'created_at',
-      valueType: 'dateTimeRange',
+      valueType: 'dateRange',
       hideInTable: true,
       search: {
         transform: (value) => {
@@ -116,7 +63,7 @@ const UserManager: React.FC = () => {
       title: '操作',
       valueType: 'option',
       width: 180,
-      render: (text, record, _, action) => [
+      render: (text, record) => [
         <Button
           type="link"
           key="editable"
@@ -130,7 +77,7 @@ const UserManager: React.FC = () => {
           key="del"
           placement="topRight"
           title="确定要删除吗?"
-          onConfirm={() => del(record?._id, record?.avatar?.[0]?.uid)}
+          onConfirm={() => del(record?._id)}
           okText="确定"
           okType="danger"
           cancelText="取消"
@@ -143,6 +90,10 @@ const UserManager: React.FC = () => {
     },
   ];
 
+  useEffect(() => {
+    console.log(formRef);
+  }, [formRef]);
+
   const showDrawer = () => {
     setVisibleDrawer(true);
   };
@@ -151,13 +102,13 @@ const UserManager: React.FC = () => {
     setVisibleDrawer(false);
   };
 
-  const edit = (item: FormUserType) => {
+  const edit = (item: FormBillType) => {
     setCItem(item);
     showDrawer();
   };
 
-  const del = async (id: string, fileName: string) => {
-    const res = await delUser(id, fileName);
+  const del = async (id: string) => {
+    const res = await delBill(id);
     if (res) {
       refTable?.current?.reload();
       message.success(res.message || '删除成功');
@@ -165,54 +116,88 @@ const UserManager: React.FC = () => {
   };
 
   const renderFormItemDom = () => {
-    return <UserForm setCaptcha={setCaptcha} cItem={cItem} />;
+    return <BillForm formRef={formRef} />;
   };
 
-  const onFinish = async (values: FormUserType) => {
-    if (captcha === values?.captcha) {
-      if (cItem) {
-        const getAvatar = () => {
-          if (values?.avatar?.file?.preview) {
-            return values?.avatar?.file.preview;
-          }
-          return values?.avatar?.fileList?.length === 0 ? '' : values?.avatar;
-        };
-        const resRole = await updateUser(cItem?._id, {
-          ...values,
-          avatar: getAvatar(),
-        });
-        if (resRole) {
-          refTable?.current?.reload();
-          message.success(resRole.message || '更新成功');
-          onCloseDrawer();
-        }
-      } else {
-        const resRole = await createUser({
-          ...values,
-          avatar: values?.avatar?.file?.preview,
-        });
-        if (resRole) {
-          refTable?.current?.reload();
-          message.success(resRole.message || '创建成功');
-          onCloseDrawer();
-        }
+  const onFinish = async (values: FormBillType) => {
+    if (cItem) {
+      const res = await updateBill(cItem?._id, {
+        ...values,
+        date: new Date(values?.date),
+      });
+      if (res) {
+        refTable?.current?.reload();
+        message.success(res?.message || '更新成功');
+        onCloseDrawer();
       }
     } else {
-      message.error('验证码错误');
+      const res = await createBill({
+        ...values,
+        date: new Date(values?.date),
+      });
+      if (res) {
+        refTable?.current?.reload();
+        message.success(res.message || '创建成功');
+        onCloseDrawer();
+      }
     }
+  };
+
+  const expandedRowRender = (record: FormBillType) => {
+    return (
+      <ProTable
+        columns={[
+          {
+            title: '类型',
+            dataIndex: 'type',
+            key: 'type',
+            render: ((text: 'diet' | 'shop') => CUSTOMOPTIONS?.[text]) as (
+              text: any,
+            ) => any,
+          },
+          { title: '消费金额', dataIndex: 'value', key: 'value' },
+        ]}
+        headerTitle="消费记录"
+        search={false}
+        options={false}
+        bordered
+        dataSource={record?.exRecords}
+        pagination={false}
+      />
+    );
   };
 
   return (
     <>
-      <ProTable<FormUserType>
+      <ProTable<FormBillType>
         scroll={{ x: true }}
         bordered
         request={async (params, sorter, filter) => {
           // 这里需要返回一个 Promise,在返回之前你可以进行数据转化
           // 如果需要转化参数可以在这里进行修改
-          const msg = await queryUser({ ...params, ...sorter, ...filter });
+          const msg = await queryBill({ ...params, ...sorter, ...filter });
           if (msg) {
-            setDatasSource(msg.data);
+            const exData = await queryBill({
+              ...params,
+              ...sorter,
+              ...filter,
+              pageSize: null,
+              current: null,
+            });
+            const newData: any[] = [];
+            exData.data.forEach((item: { exRecords: any; date: any }) => {
+              item.exRecords.forEach(
+                (c_item: { type: 'diet' | 'shop'; value: number }) => {
+                  newData.push({
+                    type: CUSTOMOPTIONS?.[c_item.type],
+                    value: c_item.value,
+                    date: moment(item.date).format('YYYY-MM-DD'),
+                  });
+                },
+              );
+            });
+            setChartData(exData?.data);
+            setDatasSource(newData);
             return {
               data: msg.data,
               success: true,
@@ -259,11 +244,12 @@ const UserManager: React.FC = () => {
         }}
         dateFormatter="string"
         headerTitle="用户列表"
+        expandable={{ expandedRowRender }}
         toolBarRender={() => [
           <Button
             key="out"
             onClick={() => {
-              exportToExcel(datasSource, '用户管理');
+              exportToExcel(datasSource, '账单管理');
             }}
           >
             导出数据
@@ -281,6 +267,9 @@ const UserManager: React.FC = () => {
           </Button>,
         ]}
       />
+      <Card style={{ marginTop: '20px' }}>
+        <BillChart data={chartData} />
+      </Card>
       <RightDrawer
         ref={formRef}
         onCloseDrawer={onCloseDrawer}
@@ -294,4 +283,4 @@ const UserManager: React.FC = () => {
   );
 };
 
-export default UserManager;
+export default Bill;

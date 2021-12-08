@@ -68,4 +68,5 @@ export default {
   'menu.articleManage.articleLiist': '文章列表',
   'menu.articleLiist': '文章列表',
   'menu.articleManage.articleCreate': '新建文章',
+  'menu.bill': '账单管理',
 };

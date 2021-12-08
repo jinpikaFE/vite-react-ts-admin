@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import 'echarts-extension-amap';
 import useEChart from '@/components/UseECharts';
 import { mapOptions } from './mapOptions';
-import { findUvMaps } from './services';
+import { findUvMaps } from '../../services';
 import { useInterval, useUnmount } from 'ahooks';
-import { GlobalType } from './type';
+import { GlobalType } from '../../type';
 
 const Maps: React.FC<{ globalType: GlobalType }> = (props) => {
   const { globalType } = props;
@@ -29,7 +29,7 @@ const Maps: React.FC<{ globalType: GlobalType }> = (props) => {
     setInterval(null);
   });
 
-  useEChart(chartRef, mapOptions(data));
+  useEChart(chartRef, mapOptions(data), true);
 
   return (
     <>

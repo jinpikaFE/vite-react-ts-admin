@@ -1,9 +1,12 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { DrawerForm, ProFormInstance } from '@ant-design/pro-form';
+import type { ProFormProps } from '@ant-design/pro-form';
 import { RightDrawerProps } from './type';
-import styles from './index.module.less'
+import styles from './index.module.less';
 
-const RightDrawer: React.FC<RightDrawerProps> = (props) => {
+const RightDrawer: React.FC<
+  RightDrawerProps & ProFormProps & { ref: ProFormInstance | any }
+> = React.forwardRef((props, formRef: ProFormInstance | any) => {
   const {
     onCloseDrawer,
     visibleDrawer,
@@ -11,9 +14,8 @@ const RightDrawer: React.FC<RightDrawerProps> = (props) => {
     onFinish,
     title,
     renderFormItemDom,
-    initialValues,
+    ...otherTableProps
   } = props;
-  const formRef = useRef<ProFormInstance | any>();
 
   useEffect(() => {
     if (visibleDrawer && cItem) {
@@ -44,12 +46,12 @@ const RightDrawer: React.FC<RightDrawerProps> = (props) => {
         onClose: onCloseDrawer,
       }}
       onFinish={onFinish}
-      initialValues={initialValues}
       formRef={formRef}
+      {...otherTableProps}
     >
       {renderFormItemDom()}
     </DrawerForm>
   );
-};
+});
 
 export default RightDrawer;

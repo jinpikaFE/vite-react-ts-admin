@@ -4,7 +4,7 @@ import { queryMenu } from '@/services/global';
 import exportToExcel from '@/utils/exportToExcel';
 import { toTree } from '@/utils/untils';
 import { PlusOutlined } from '@ant-design/icons';
-import ProForm, { ProFormText } from '@ant-design/pro-form';
+import ProForm, { ProFormInstance, ProFormText } from '@ant-design/pro-form';
 import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import { Button, message, Popconfirm, Select, Tag, TreeSelect } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
@@ -22,6 +22,7 @@ const RoleManager: React.FC = () => {
   const [visibleDrawer, setVisibleDrawer] = useState<boolean>(false);
   const [cItem, setCItem] = useState<FormRoleType>();
   const refTable = useRef<ActionType>();
+  const formRef = useRef<ProFormInstance | any>();
 
   const [treeData, setTreeData] = useState<any[]>([]);
   const [menusData, setMenusData] = useState<any[]>([]);
@@ -377,6 +378,7 @@ const RoleManager: React.FC = () => {
         ]}
       />
       <RightDrawer
+        ref={formRef}
         onCloseDrawer={onCloseDrawer}
         visibleDrawer={visibleDrawer}
         cItem={cItem}

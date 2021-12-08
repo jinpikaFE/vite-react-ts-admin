@@ -16,6 +16,8 @@
 
 [个人博客中,Problem记录了该项目开发中遇到的相关问题](http://blog.jinxinapp.cn/)
 
+![项目截图](./src/assets/show.png)
+
 ## 主要功能
 
 - 登录功能

@@ -27,13 +27,17 @@ const routes: RouteType[] = [
           },
           {
             path: '/manager/userManager',
-            component: lazy(()=>import('@/pages/Admin/userManager'))
+            component: lazy(() => import('@/pages/Admin/userManager')),
           },
           {
             path: '/manager/roleManager',
-            component: lazy(()=>import('@/pages/Admin/roleManager'))
-          }
+            component: lazy(() => import('@/pages/Admin/roleManager')),
+          },
         ],
+      },
+      {
+        path: '/bill',
+        component: lazy(() => import('@/pages/Bill')),
       },
     ],
   },

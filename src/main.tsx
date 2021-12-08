@@ -16,8 +16,22 @@ import { localeMonitor } from '@/stores/monitor';
 import { Observer } from 'mobx-react';
 import { cookie } from './utils/untils';
 import { nanoid } from 'nanoid';
-import ErrorBoundary from './components/ErrorBoundary';
+// import ErrorBoundary from './components/ErrorBoundary';
 import { creatPv, creatUv } from './services/global';
+
+import * as Sentry from '@sentry/react';
+import { Integrations } from '@sentry/tracing';
+import ErrorPage from './Error';
+
+Sentry.init({
+  dsn: 'https://56c62c25b8ad428a9ed612837497a92b@o1074927.ingest.sentry.io/6076409',
+  integrations: [new Integrations.BrowserTracing()],
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+});
 
 const data = {
   zh: locale_cn,
@@ -54,13 +68,10 @@ window.onunload = async () => {
     if (localStorage.currentUser) {
       creatUv({
         ...localeMonitor.uvData,
-        uid:
-          localeMonitor?.uvData?.uid +
-          '/' +
-          JSON.parse(localStorage?.currentUser)?.userName,
+        uid: localeMonitor?.uvData?.uid,
+        userName: JSON.parse(localStorage?.currentUser)?.userName,
       });
     }
-    creatUv(localeMonitor.uvData);
     // 离开时记录一次
     const pvData = {
       ...localeMonitor.pvData,
@@ -76,7 +87,7 @@ window.onerror = (message, source, line, col) => {
 };
 
 ReactDOM.render(
-  <ErrorBoundary>
+  <Sentry.ErrorBoundary fallback={(error) => <ErrorPage error={error} />}>
     <Observer>
       {() => (
         <IntlProvider
@@ -88,6 +99,6 @@ ReactDOM.render(
         </IntlProvider>
       )}
     </Observer>
-  </ErrorBoundary>,
+  </Sentry.ErrorBoundary>,
   document.getElementById('root'),
 );
