@@ -8,13 +8,13 @@
 
 基于 vite-mobx-TypeScript-react 开发的后台管理系统
 
-[示例链接](http://nestadmin_dt.jinxinapp.cn/login)
+[示例链接](http://110.40.192.199:3003/login)
 
 [项目中涉及的接口项目地址](https://github.com/jinxin1517/nest-admin)
 
 [项目接口文档](http://nestadmin_dt.jinxinapp.cn/docs/)
 
-[个人博客中,Problem记录了该项目开发中遇到的相关问题](http://blog.jinxinapp.cn/)
+[个人博客中,Problem记录了该项目开发中遇到的相关问题](http://110.40.192.199:3004/#/Problem/Personal/vite-react-admin)
 
 ![项目截图](./src/assets/show.png)
 
