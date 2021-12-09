@@ -4,11 +4,13 @@ import moment from 'moment';
 import * as echarts from 'echarts';
 import React, { useEffect, useRef, useState } from 'react';
 import type { BillChartPorps } from '../type';
+import { Card } from 'antd';
 
 const BillChart: React.FC<BillChartPorps> = (props) => {
   const { data } = props;
   const chartRef = useRef(null);
   const renderEcharts$ = useEventEmitter();
+  const [total, setTotal] = useState<number>(0);
   const [optionInit, setOptionInit] = useState<echarts.EChartsOption>({
     animationDuration: 1500,
     title: {
@@ -63,10 +65,13 @@ const BillChart: React.FC<BillChartPorps> = (props) => {
   useEffect(() => {
     const xTemp: any[] = [];
     const serDataTemp: any[] = [];
+    let tempTotal = 0;
     data?.forEach((item) => {
       xTemp.push(moment(item.date).format('YYYY-MM-DD'));
       serDataTemp.push(item.totalConsume);
+      tempTotal += +item.totalConsume;
     });
+    setTotal(tempTotal);
     optionInit.xAxis.data = xTemp;
     optionInit.series[0].data = serDataTemp;
     setOptionInit({ ...optionInit });
@@ -75,7 +80,19 @@ const BillChart: React.FC<BillChartPorps> = (props) => {
   useEChart(chartRef, optionInit, false, renderEcharts$);
   return (
     <>
-      <div ref={chartRef} style={{ width: '100%', height: '500px' }}></div>
+      <Card>
+        <h3>
+          总消费：
+          <span style={{ color: total > 5500 ? 'red' : 'unset' }}>
+            {total}
+          </span>{' '}
+          元
+        </h3>
+      </Card>
+      <div
+        ref={chartRef}
+        style={{ width: '100%', height: '500px', marginTop: '20px' }}
+      ></div>
     </>
   );
 };

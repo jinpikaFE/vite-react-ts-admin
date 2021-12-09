@@ -80,6 +80,10 @@ const BillForm: React.FC<{
                 value: 'shop',
                 label: '购物',
               },
+              {
+                value: 'transport',
+                label: '交通',
+              },
             ]}
             width="xs"
             name="type"

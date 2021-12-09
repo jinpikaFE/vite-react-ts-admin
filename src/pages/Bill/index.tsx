@@ -2,8 +2,8 @@ import RightDrawer from '@/components/RightDrawer';
 import exportToExcel from '@/utils/exportToExcel';
 import { PlusOutlined } from '@ant-design/icons';
 import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
-import { Button, Card, message, Popconfirm } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
+import { Button, Card, message, Popconfirm, Select } from 'antd';
+import React, { useRef, useState } from 'react';
 import { FormBillType } from './type';
 import BillForm from './components/BillForm';
 import { ProFormInstance } from '@ant-design/pro-form';
@@ -11,6 +11,9 @@ import { createBill, delBill, queryBill, updateBill } from './services';
 import { CUSTOMOPTIONS } from './constants';
 import moment from 'moment';
 import BillChart from './components/BillChart';
+import { getCurrentMonthLast, getFirstDayOfMonth } from '@/utils/dateTools';
+
+type typeEnum = 'diet' | 'shop' | 'transport';
 
 const Bill: React.FC = () => {
   const [visibleDrawer, setVisibleDrawer] = useState<boolean>(false);
@@ -60,6 +63,24 @@ const Bill: React.FC = () => {
       },
     },
     {
+      title: '类型',
+      dataIndex: 'type',
+      hideInTable: true,
+      renderFormItem: () => {
+        return (
+          <Select allowClear>
+            {(Object.keys(CUSTOMOPTIONS) as any)?.map((item: typeEnum) => {
+              return (
+                <Select.Option value={item} key={item}>
+                  {CUSTOMOPTIONS?.[item]}
+                </Select.Option>
+              );
+            })}
+          </Select>
+        );
+      },
+    },
+    {
       title: '操作',
       valueType: 'option',
       width: 180,
@@ -89,10 +110,6 @@ const Bill: React.FC = () => {
       ],
     },
   ];
-
-  useEffect(() => {
-    console.log(formRef);
-  }, [formRef]);
 
   const showDrawer = () => {
     setVisibleDrawer(true);
@@ -151,9 +168,8 @@ const Bill: React.FC = () => {
             title: '类型',
             dataIndex: 'type',
             key: 'type',
-            render: ((text: 'diet' | 'shop') => CUSTOMOPTIONS?.[text]) as (
-              text: any,
-            ) => any,
+            render: ((text: 'diet' | 'shop' | 'transport') =>
+              CUSTOMOPTIONS?.[text]) as (text: any) => any,
           },
           { title: '消费金额', dataIndex: 'value', key: 'value' },
         ]}
@@ -187,7 +203,10 @@ const Bill: React.FC = () => {
             const newData: any[] = [];
             exData.data.forEach((item: { exRecords: any; date: any }) => {
               item.exRecords.forEach(
-                (c_item: { type: 'diet' | 'shop'; value: number }) => {
+                (c_item: {
+                  type: 'diet' | 'shop' | 'transport';
+                  value: number;
+                }) => {
                   newData.push({
                     type: CUSTOMOPTIONS?.[c_item.type],
                     value: c_item.value,
@@ -232,7 +251,14 @@ const Bill: React.FC = () => {
             if (type === 'get') {
               return {
                 ...values,
-                created_at: [values.startTime, values.endTime],
+                created_at: [
+                  values.startTime ||
+                    moment(getFirstDayOfMonth(new Date())).format('YYYY-MM-DD'),
+                  values.endTime ||
+                    moment(getCurrentMonthLast(new Date())).format(
+                      'YYYY-MM-DD',
+                    ),
+                ],
               };
             }
             return values;

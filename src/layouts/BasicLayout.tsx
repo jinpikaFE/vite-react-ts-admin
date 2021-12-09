@@ -13,7 +13,7 @@ import { RouteType } from '@config/routes/type';
 import { GithubOutlined } from '@ant-design/icons';
 import { queryMenu } from '@/services/global';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import { Button, Input, Result } from 'antd';
+import { Button, Input } from 'antd';
 import { useFormatMessage } from 'react-intl-hooks';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import proSettings from '@config/defaultSettings';

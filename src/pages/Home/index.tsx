@@ -17,7 +17,6 @@ import type {
   UvStatisticsType,
 } from './type';
 import moment from 'moment';
-import exportToExcel from '@/utils/exportToExcel';
 import ProTable, { ProColumns } from '@ant-design/pro-table';
 import TweenOne from 'rc-tween-one';
 import Children from 'rc-tween-one/lib/plugin/ChildrenPlugin';
