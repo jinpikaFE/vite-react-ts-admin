@@ -106,7 +106,7 @@ const Login: React.FC = () => {
             style={{ height: '100%' }}
           >
             <LoginForm
-              logo="/src/assets/logo.png"
+              logo="./src/assets/logo.png"
               title="Jin Pi Ka"
               subTitle="通用的vite-react后台项目"
               onFinish={onFinish}

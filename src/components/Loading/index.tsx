@@ -22,7 +22,7 @@ const Loading: React.FC<{ imgUrl?: string }> = (props) => {
 };
 
 Loading.defaultProps = {
-  imgUrl: '/src/assets/loading.gif',
+  imgUrl: './src/assets/loading.gif',
 };
 
 export default Loading;
