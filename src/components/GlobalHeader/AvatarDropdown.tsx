@@ -4,7 +4,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { Avatar, Dropdown, Menu, Spin } from 'antd';
-import { Observer, useLocalStore } from 'mobx-react';
+import { Observer } from 'mobx-react';
 import React from 'react';
 import { localeLogin } from '@/stores/login';
 import styles from './index.module.less';
@@ -46,7 +46,7 @@ const AvatarDropdown: React.FC<AvatarDropdownPropsType> = ({ menu = true }) => {
     </Menu>
   );
 
-  const currentUser = localeLogin.currentUser;
+  const currentUser: any = localeLogin.currentUser;
 
   return (
     <Observer>
@@ -82,11 +82,3 @@ const AvatarDropdown: React.FC<AvatarDropdownPropsType> = ({ menu = true }) => {
 };
 
 export default AvatarDropdown;
-// const AvatarDropdown: React.FC<AvatarDropdownPropsType> = ({ onMenuClick, menu=true }) => {
-
-//   return (
-//     <div>2</div>
-//   );
-// };
-
-// export default AvatarDropdown;

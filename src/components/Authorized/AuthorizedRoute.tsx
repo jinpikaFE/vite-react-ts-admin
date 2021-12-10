@@ -1,11 +1,11 @@
-import { RouteType } from '@config/routes/type';
+import type { RouteConfig } from 'react-router-config';
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import Authorized from './Authorized';
 import type { IAuthorityType } from './CheckPermissions';
 
 type AuthorizedRouteProps = {
-  routes: RouteType[];
+  routes: RouteConfig[];
   currentAuthority: string;
   component: React.ComponentClass<any, any>;
   render: (props: any) => React.ReactNode;

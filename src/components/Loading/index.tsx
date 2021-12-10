@@ -1,11 +1,12 @@
 import React from 'react';
 import { Image } from 'antd';
 
-const Loading: React.FC = () => {
+const Loading: React.FC<{ imgUrl?: string }> = (props) => {
+  const { imgUrl } = props;
   return (
     <div style={{ width: '100%', height: '100vh', overflow: 'hidden' }}>
       <Image
-        src="http://assets.jinxinapp.cn/img/loading.gif"
+        src={imgUrl}
         width="100%"
         style={{
           width: '100%',
@@ -18,6 +19,10 @@ const Loading: React.FC = () => {
       />
     </div>
   );
+};
+
+Loading.defaultProps = {
+  imgUrl: '/src/assets/loading.gif',
 };
 
 export default Loading;

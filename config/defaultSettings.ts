@@ -7,7 +7,7 @@ type DefaultSettings = Partial<ProSettings> & {
 };
 
 const proSettings: DefaultSettings = {
-  logo: 'http://assets.jinxinapp.cn/img/logo.png',
+  logo: '/src/assets/logo.png',
   // 拂晓蓝
   primaryColor: '#4569D4',
   layout: 'side',
