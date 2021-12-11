@@ -1,5 +1,6 @@
 import { ICON_URL } from '@/types/constants';
 import { Settings as ProSettings } from '@ant-design/pro-layout';
+import logo from '@/assets/logo.png';
 
 type DefaultSettings = Partial<ProSettings> & {
   pwa: boolean;
@@ -7,7 +8,7 @@ type DefaultSettings = Partial<ProSettings> & {
 };
 
 const proSettings: DefaultSettings = {
-  logo: './src/assets/logo.png',
+  logo: logo,
   // 拂晓蓝
   primaryColor: '#4569D4',
   layout: 'side',

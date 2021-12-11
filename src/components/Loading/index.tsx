@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image } from 'antd';
+import logo from '@/assets/logo.png';
 
 const Loading: React.FC<{ imgUrl?: string }> = (props) => {
   const { imgUrl } = props;
@@ -22,7 +23,7 @@ const Loading: React.FC<{ imgUrl?: string }> = (props) => {
 };
 
 Loading.defaultProps = {
-  imgUrl: './src/assets/loading.gif',
+  imgUrl: logo,
 };
 
 export default Loading;

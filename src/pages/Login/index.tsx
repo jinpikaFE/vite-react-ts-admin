@@ -26,6 +26,7 @@ import { useHistory } from 'react-router-dom';
 import { setAuthority } from '@/utils/authority';
 import { localeLogin } from '@/stores/login';
 import { useUnmount } from 'ahooks';
+import logo from '@/assets/logo.png';
 
 type LoginType = 'phone' | 'account' | 'qrcode';
 
@@ -106,7 +107,7 @@ const Login: React.FC = () => {
             style={{ height: '100%' }}
           >
             <LoginForm
-              logo="./src/assets/logo.png"
+              logo={logo}
               title="Jin Pi Ka"
               subTitle="通用的vite-react后台项目"
               onFinish={onFinish}
