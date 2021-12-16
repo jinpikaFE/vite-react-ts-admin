@@ -18,6 +18,8 @@
 
 ![项目截图](./src/assets/show.png)
 
+![项目截图](./src/assets/show2.png)
+
 ## 主要功能
 
 - 登录功能
