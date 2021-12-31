@@ -1,4 +1,4 @@
-import { RouteType } from '@config/routes/type';
+import { RouteConfig } from 'react-router-config';
 
 /**
  * 当前pathname是否在路由中有，有则返回当前对象，没有就是undefined
@@ -6,7 +6,7 @@ import { RouteType } from '@config/routes/type';
  * @param router [{}]
  * @param pathname string
  */
-export const getAuthorityFromRouter = <T extends RouteType>(
+export const getAuthorityFromRouter = <T extends RouteConfig>(
   router: T[] = [],
   pathname: string,
 ): T | undefined => {
@@ -169,4 +169,33 @@ export const cookie = {
     oDate.setDate(new Date().getDate() - 1);
     document.cookie = name + '=123;expires=' + oDate + ';path=/';
   },
+};
+
+export const formatLess = (time: number) => {
+  return time >= 10 ? time : '0' + time;
+};
+
+// 时间戳转时长
+
+export const formatDuring = (
+  mss: number,
+  dayUnit = '天',
+  hourUnit = '时',
+  minUnit = '分',
+  scdUnit = '秒',
+) => {
+  const days = parseInt(mss / (1000 * 60 * 60 * 24) + '');
+  const hours = parseInt((mss % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60) + '');
+  const minutes = parseInt((mss % (1000 * 60 * 60)) / (1000 * 60) + '');
+  const seconds = ((mss % (1000 * 60)) / 1000).toFixed(0);
+
+  return (
+    `${days > 0 ? days + dayUnit : ''}` +
+    formatLess(hours) +
+    hourUnit +
+    formatLess(minutes) +
+    minUnit +
+    formatLess(+seconds) +
+    scdUnit
+  );
 };

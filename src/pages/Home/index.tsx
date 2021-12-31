@@ -22,6 +22,7 @@ import TweenOne from 'rc-tween-one';
 import Children from 'rc-tween-one/lib/plugin/ChildrenPlugin';
 import { nanoid } from 'nanoid';
 import Banner from './components/Banner';
+import { formatDuring } from '@/utils/untils';
 
 TweenOne.plugins.push(Children);
 
@@ -49,6 +50,38 @@ const Home: React.FC = () => {
 
   const onSelect = (val: GlobalType) => {
     setGlobalType(val);
+  };
+
+  // 平均时间动效
+  const aniAvgTime = (avgTime: string) => {
+    const tempArr = avgTime.split(':');
+    const renderTime = (time: number) => {
+      return (
+        <>
+          {time >= 10 ? (
+            renderAnimationNum(time, true)
+          ) : (
+            <>0{renderAnimationNum(time, true)}</>
+          )}
+        </>
+      );
+    };
+
+    if (tempArr?.length === 4) {
+      return (
+        <span style={{ color: 'rgba(0, 0, 0, 0.85)', fontSize: '24px' }}>
+          {renderAnimationNum(+tempArr[0], true)}天 {renderTime(+tempArr[1])}:
+          {renderTime(+tempArr[2])}:{renderTime(+tempArr[3])}
+        </span>
+      );
+    } else {
+      return (
+        <span style={{ color: 'rgba(0, 0, 0, 0.85)', fontSize: '24px' }}>
+          {renderTime(+tempArr[0])}:{renderTime(+tempArr[1])}:
+          {renderTime(+tempArr[2])}
+        </span>
+      );
+    }
   };
 
   const columns: ProColumns[] = [
@@ -102,22 +135,7 @@ const Home: React.FC = () => {
       sorter: true,
       hideInSearch: true,
       render: (text) => {
-        return (
-          <>
-            {new Date(Number(uvStatistics?.uvAverageTime) || 0).getDate() - 1 >
-              0 && (
-              <span>
-                {new Date(Number(uvStatistics?.uvAverageTime) || 0).getDate() -
-                  1}
-                天{' '}
-              </span>
-            )}
-            {moment(Number(text)).locale() === 'en'
-              ? new Date(Number(text)).getHours() - 8
-              : new Date(Number(text)).getHours()}
-            :{moment(Number(text)).format('mm:ss')}
-          </>
-        );
+        return <>{formatDuring(+(text as string), '天', ':', ':', '')}</>;
       },
     },
   ];
@@ -249,59 +267,17 @@ const Home: React.FC = () => {
                   {renderAnimationNum(pvStatistics?.pvPeak, true)}
                 </ProCard>
                 <ProCard title="平均访问时长(UV)">
-                  {new Date(
-                    Number(uvStatistics?.uvAverageTime) || 0,
-                  ).getDate() -
-                    1 >
-                    0 && (
-                    <span
-                      style={{
-                        color: 'rgba(0, 0, 0, 0.85)',
-                        fontSize: '24px',
-                      }}
-                    >
-                      {new Date(
-                        Number(uvStatistics?.uvAverageTime) || 0,
-                      ).getDate() - 1}
-                      天{' '}
-                    </span>
-                  )}
-                  {(uvStatistics?.uvAverageTime
-                    ? `${
-                        moment(Number(uvStatistics?.uvAverageTime)).locale() ===
-                        'en'
-                          ? new Date(
-                              Number(uvStatistics?.uvAverageTime),
-                            ).getHours() - 8
-                          : new Date(
-                              Number(uvStatistics?.uvAverageTime),
-                            ).getHours()
-                      }:${moment(Number(uvStatistics?.uvAverageTime)).format(
-                        'mm:ss',
-                      )}`
-                    : '00:00:00'
-                  )
-                    .split(':')
-                    .map((item, index) => {
-                      let showStartZero = false;
-                      if (Number(item) < 10) {
-                        showStartZero = true;
-                      }
-                      if (index === 2) {
-                        return renderAnimationNum(
-                          Number(item),
-                          true,
+                  {aniAvgTime(
+                    uvStatistics?.uvAverageTime
+                      ? `${formatDuring(
+                          +uvStatistics?.uvAverageTime,
+                          ':',
+                          ':',
+                          ':',
                           '',
-                          showStartZero,
-                        );
-                      }
-                      return renderAnimationNum(
-                        Number(item),
-                        true,
-                        ':',
-                        showStartZero,
-                      );
-                    })}
+                        )}`
+                      : '00:00:00',
+                  )}
                 </ProCard>
               </ProCard>
             </ProCard>
