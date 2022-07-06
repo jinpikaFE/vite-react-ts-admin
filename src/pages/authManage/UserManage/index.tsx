@@ -170,33 +170,35 @@ const UserManager: React.FC = () => {
 
   const onFinish = async (values: FormUserType) => {
     if (captcha === values?.captcha) {
-      if (cItem) {
-        const getAvatar = () => {
-          if (values?.avatar?.file?.preview) {
-            return values?.avatar?.file.preview;
-          }
-          return values?.avatar?.fileList?.length === 0 ? '' : values?.avatar;
-        };
-        const resRole = await updateUser(cItem?._id, {
-          ...values,
-          avatar: getAvatar(),
-        });
-        if (resRole) {
-          refTable?.current?.reload();
-          message.success(resRole.message || '更新成功');
-          onCloseDrawer();
-        }
-      } else {
-        const resRole = await createUser({
-          ...values,
-          avatar: values?.avatar?.file?.preview,
-        });
-        if (resRole) {
-          refTable?.current?.reload();
-          message.success(resRole.message || '创建成功');
-          onCloseDrawer();
-        }
-      }
+      console.log(values);
+
+      // if (cItem) {
+      //   const getAvatar = () => {
+      //     if (values?.avatar?.file?.preview) {
+      //       return values?.avatar?.file.preview;
+      //     }
+      //     return values?.avatar?.fileList?.length === 0 ? '' : values?.avatar;
+      //   };
+      //   const resRole = await updateUser(cItem?._id, {
+      //     ...values,
+      //     avatar: getAvatar(),
+      //   });
+      //   if (resRole) {
+      //     refTable?.current?.reload();
+      //     message.success(resRole.message || '更新成功');
+      //     onCloseDrawer();
+      //   }
+      // } else {
+      //   const resRole = await createUser({
+      //     ...values,
+      //     avatar: values?.avatar?.file?.preview,
+      //   });
+      //   if (resRole) {
+      //     refTable?.current?.reload();
+      //     message.success(resRole.message || '创建成功');
+      //     onCloseDrawer();
+      //   }
+      // }
     } else {
       message.error('验证码错误');
     }

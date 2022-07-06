@@ -9,30 +9,30 @@
 export default {
   dev: {
     '/api/': {
-      target: 'http://jinxinapp.cn',
+      target: 'http://localhost:3003',
       changeOrigin: true,
-      rewrite: (path: string) => path.replace(/^\/api/, '')
+      rewrite: (path: string) => path.replace(/^\/api/, '/api'),
     },
   },
   test: {
     '/api/': {
       target: 'http://jsonplaceholder.typicode.com',
       changeOrigin: true,
-      rewrite: (path: string) => path.replace(/^\/api/, '')
+      rewrite: (path: string) => path.replace(/^\/api/, ''),
     },
   },
   pre: {
     '/api/': {
       target: 'http://jsonplaceholder.typicode.com',
       changeOrigin: true,
-      rewrite: (path: string) => path.replace(/^\/api/, '')
+      rewrite: (path: string) => path.replace(/^\/api/, ''),
     },
   },
   pro: {
     '/api/': {
       target: 'http://jsonplaceholder.typicode.com',
       changeOrigin: true,
-      rewrite: (path: string) => path.replace(/^\/api/, '')
+      rewrite: (path: string) => path.replace(/^\/api/, ''),
     },
   },
 };

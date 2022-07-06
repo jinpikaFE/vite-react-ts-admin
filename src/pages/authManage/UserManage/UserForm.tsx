@@ -1,4 +1,4 @@
-import UploadAvatar from '@/components/UploadAvatar';
+import FormUploadImg from '@/components/formUploadImg';
 import { MailTwoTone } from '@ant-design/icons';
 import ProForm, { ProFormCaptcha, ProFormText } from '@ant-design/pro-form';
 import { useEventTarget } from 'ahooks';
@@ -145,7 +145,7 @@ const UserForm: React.FC<{
           ))}
         </Select>
       </ProForm.Item>
-      <UploadAvatar avatar={cItem?.avatar} />
+      <FormUploadImg />
       <ProFormCaptcha
         fieldProps={{
           size: 'large',
